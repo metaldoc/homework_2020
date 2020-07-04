@@ -1,0 +1,20 @@
+I would monitor the following system-level metrics:
+- CPU utilization
+- CPU load (1, 5, 15 minutes)
+- CPU iowait
+- RAM usage
+- IO load of the disks
+- Disk usage
+- Network bandwidth utilization
+- Percentage of TCP errors and retransmissions
+- Number of OS threads
+
+Also, it would be great to monitor application-level metrics:
+- Amount of SSL terminations per second
+- Amount of SSL termination errors per second
+- Median, 99 and 95 percentile for SSL termination time
+
+From the provided list, I would focus my attention on the bandwidth utilization and amount of TCP errors and retransmissions because the primary function of the proxy server is to receive and send data.
+I would install Telegraf agent on the server, install Prometheus on the separate server to gather metrics from the Telegraf agent, and install Grafana as a dashboard for the metrics.
+One of the main challenges is false alerts. For example, you configured a 50% threshold for the CPU usage, but at the peak time, let's say at 19:00 GMT0 every Thursday CPU load starts breaking this threshold by 4-5 %. In this case, you will need either loose an alert threshold or create custom rule specifically for the peak load time.
+Apart from that, I don't see more challenges in monitoring a single host. If there are multiple hosts of the same size, we might have other problems: keep all servers monitored, have some monitoring data retention as we might not have enough disk space to save all historical data.
